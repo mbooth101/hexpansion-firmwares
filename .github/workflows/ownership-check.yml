@@ -3,6 +3,8 @@ name: Ownership Check
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted, edited]
 
 jobs:
   check-ownership:
@@ -16,11 +18,15 @@ jobs:
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          approvers=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/reviews" --paginate \
+            --jq '[.[] | select(.state == "APPROVED") | .user.login] | unique | .[]')
+          users=($PR_AUTHOR $approvers)
+
           failed=0
           while IFS= read -r file; do
-            if ! python3 find_owner.py "$file" "$PR_AUTHOR"; then
-              echo "FAIL: $PR_AUTHOR is not an owner of $file"
+            if ! python3 find_owner.py "$file" "${users[@]}"; then
+              echo "FAIL: none of [${users[*]}] is an owner of $file"
               failed=1
             fi
-          done < <(gh api "repos/matthewwilkes/hexpansion-firmwares/pulls/3/files" --paginate --jq '.[].filename')
+          done < <(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files" --paginate --jq '.[].filename')
           exit $failed

@@ -28,8 +28,8 @@ def find_owner(filepath: str) -> str | None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) not in (2, 3):
-        print(f"Usage: {sys.argv[0]} <repo-relative-path> [username]", file=sys.stderr)
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <repo-relative-path> [username ...]", file=sys.stderr)
         sys.exit(1)
 
     result = find_owner(sys.argv[1])
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         sys.exit(1)
     print(result)
 
-    if len(sys.argv) == 3:
-        username = sys.argv[2].lstrip("@")
-        owners = [o.lstrip("@") for o in result.split()[1:]]
-        sys.exit(0 if username in owners else 1)
+    if len(sys.argv) > 2:
+        candidates = {u.lstrip("@") for u in sys.argv[2:]}
+        owners = {o.lstrip("@") for o in result.split()[1:]}
+        sys.exit(0 if candidates & owners else 1)
