@@ -3,7 +3,7 @@
   "fs_offset": 32,
   "eeprom_page_size": 32,
   "eeprom_total_size": 8192,
-  "vid": "0xF055",
+  "vid": "0x1337",
   "pid": "0x9009",
   "unique_id": 0,
   "friendly_name": "GooglyEye"
