@@ -6,9 +6,9 @@ from tildagonos import tildagonos
 
 
 def average_proportion(a, b, ratio):
-    r = int((a[0] * ratio + b[0]) / (ratio + 1))
-    g = int((a[1] * ratio + b[1]) / (ratio + 1))
-    b = int((a[2] * ratio + b[2]) / (ratio + 1))
+    r = (a[0] * ratio + b[0]) // (ratio + 1)
+    g = (a[1] * ratio + b[1]) // (ratio + 1)
+    b = (a[2] * ratio + b[2]) // (ratio + 1)
     return (r,g,b)
 
 class InfraRed(app.App):
@@ -28,6 +28,7 @@ class InfraRed(app.App):
             self.leds[2] = average_proportion(bracket[0], bracket[1], 1)
             self.leds[3] = average_proportion(bracket[1], bracket[0], 3)
             self.leds[4] = bracket[1]
+            self.leds.write()
             await asyncio.sleep(0.1)
 
 __app_export__ = InfraRed
