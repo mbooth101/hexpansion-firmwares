@@ -1,10 +1,14 @@
 name: Ownership Check
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened]
   pull_request_review:
     types: [submitted, edited]
+
+
+permissions:
+  pull-requests: write
 
 jobs:
   check-ownership:
