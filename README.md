@@ -18,7 +18,7 @@ Once you have done this, a pr will be automatically opened and merged to create 
 
 ### Creating a new vendor
 
-Go to https://github.com/emfcamp/hexpansion-firmwares/issues/new?template=vewndor_id.yml and fill in the form. You can then pick a 4 hex digit vendor identifier. Make sure this isn't already allocated.
+Go to https://github.com/emfcamp/hexpansion-firmwares/issues/new?template=vendor_id.yml and fill in the form. You can then pick a 4 hex digit vendor identifier. Make sure this isn't already allocated.
 
 Once you have done this, a pr will be automatically opened and merged to create the folder structure for you.
 
